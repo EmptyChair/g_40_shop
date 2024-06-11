@@ -79,12 +79,12 @@ public class ProductController {
         return service.getActiveProductsQuantity();
     }
 
-    @GetMapping("/totalprice")
+    @GetMapping("/total-price")
     public BigDecimal getTotalPrice() {
         return service.getActiveProductsTotalPrice();
     }
 
-    @GetMapping("/averageprice")
+    @GetMapping("/average-price")
     public BigDecimal getAveragePrice() {
         return service.getActiveProductsTotalPrice();
     }
@@ -97,6 +97,15 @@ public class ProductController {
     /*
     @GetMapping("/test")
     public void test(){
+        System.out.println("tested Product controller!");
+    }
+
+     */
+
+    /*
+    // GEt products - get - localhost:8080/products/3/gjffgjgh instead of  ?id=3
+    @GetMapping("/{id]") //meaning first after 8080/products
+    public void getById(@Pathvariable Long id){
         System.out.println("tested Product controller!");
     }
 
