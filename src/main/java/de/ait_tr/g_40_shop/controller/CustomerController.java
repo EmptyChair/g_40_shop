@@ -3,11 +3,15 @@ package de.ait_tr.g_40_shop.controller;
 import de.ait_tr.g_40_shop.domain.entity.Customer;
 import de.ait_tr.g_40_shop.domain.entity.Product;
 import de.ait_tr.g_40_shop.service.interfaces.CustomerService;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
 
+@RestController
+//note for postman-requests
+@RequestMapping("/customers")
 public class CustomerController {
 
     private CustomerService customerService;
@@ -31,8 +35,8 @@ public class CustomerController {
     }
 
     @PutMapping
-    public Customer updateCustomerById(@RequestParam(required = true) Long id){
-        return customerService.updateCustomerById(id);
+    public Customer updateCustomerById(@RequestParam(required = true) Long id, @RequestParam(required = true) Customer customer){
+        return customerService.updateCustomerById(id, customer);
     }
 
     @DeleteMapping
@@ -45,12 +49,12 @@ public class CustomerController {
         }
     }
 
-    @PutMapping("/restore-customer")
+    @PutMapping("/restoration")
     public void restore(@RequestParam Long id) {
         customerService.restoreCustomerById(id);
     }
 
-    @GetMapping("/quantity-customers")
+    @GetMapping("/quantity")
     public long getActiveCustomerQuantity() {
         return customerService.getActiveCustomersQuantity();
     }
@@ -65,17 +69,17 @@ public class CustomerController {
         return customerService.getCustomerProductsAveragePriceById(id);
     }
 
-    @PutMapping
-    public Product addProductByCustomerId(@RequestParam Long id, Product product) {
-        return customerService.addProductByCustomerId(id, product);
+    @PutMapping("/product-id")
+    public Product addProductByCustomerId(@RequestParam Long id, @RequestParam Long productId) {
+        return customerService.addProductByCustomerId(id, productId);
     }
 
-    @DeleteMapping
-    public void deleteProductByCustomerId(@RequestParam Long id, Product product){
-        customerService.deleteProductByCustomerId(id, product);
+    @DeleteMapping("/product-id")
+    public void deleteProductByCustomerId(@RequestParam Long id, @RequestParam Long productId){
+        customerService.deleteProductByCustomerId(id, productId);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/all-products-id")
     public void removeAllProductsByCustomerId(@RequestParam Long id){
         customerService.removeAllProductsByCustomerId(id);
     }
