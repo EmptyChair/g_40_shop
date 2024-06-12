@@ -27,27 +27,24 @@ public class ProductController {
     @PostMapping
     //@Request body to make sure JSON is transformed into object
     public Product save (@RequestBody Product product) {
-        // TODO use service
-        //Spring will automatically turn Product product into JSON request using Jackson
+        //problem - turning product back into JSON
+        //solution: Spring will automatically turn Product product into JSON request using Jackson
         return service.save(product);
-
-        //problem
     }
 
     @GetMapping
     public List<Product> getProduct(@RequestParam(required = false) Long id) {
         if (id == null) {
-           //TODO request all products from service
             return service.getAllActiveProducts();
         }  else {
-            //TODO request one product by id
-            return List.of(service.getById(id));
+            //if product doesn't exist
+            Product product = service.getById(id);
+            return product == null ? null : List.of(service.getById(id));
         }
     }
 
     @PutMapping
     public Product updateProduct(@RequestParam Product product) {
-        //TODO service request
         return service.update(product);
     }
 

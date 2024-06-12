@@ -11,15 +11,15 @@ public interface CustomerService {
     Customer saveCustomer(Customer customer);
     List<Customer> getAllActiveCustomers();
     Customer getActiveCustomerById(Long id);
-    Customer updateCustomerById(Long id);
+    Customer updateCustomerById(Long id, Customer customer);
     void deleteCustomerById(Long id);
     void deleteCustomerByName(String name);
     Customer restoreCustomerById(Long id);
     long getActiveCustomersQuantity();
     BigDecimal getCustomerProductsTotalPriceById(Long id);
     BigDecimal getCustomerProductsAveragePriceById(Long id);
-    Product addProductByCustomerId(Long id, Product product);
-    void deleteProductByCustomerId(Long id, Product product);
+    Product addProductByCustomerId(Long id, Long productId);
+    void deleteProductByCustomerId(Long id, Long productId);
     void removeAllProductsByCustomerId(Long id);
 
 }

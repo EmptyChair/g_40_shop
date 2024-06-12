@@ -1,6 +1,7 @@
 package de.ait_tr.g_40_shop.service;
 
 import de.ait_tr.g_40_shop.domain.entity.Product;
+import de.ait_tr.g_40_shop.repository.ProductRepository;
 import de.ait_tr.g_40_shop.service.interfaces.ProductService;
 import org.springframework.stereotype.Service;
 
@@ -10,19 +11,47 @@ import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
+    private final ProductRepository repository;
+
+    public ProductServiceImpl(ProductRepository repository) {
+        this.repository = repository;
+    }
+
     @Override
     public Product save(Product product) {
-        return null;
+        //nullify id if the customer provides one - this way the customer can't override another product with this id
+        product.setId(null);
+        //set to active as per task description
+        product.setActive(true);
+        return repository.save(product);
     }
 
     @Override
     public List<Product> getAllActiveProducts() {
-        return null;
+        return repository.findAll()
+                .stream()
+                .filter(Product::isActive)
+                //.filter(x->x.isActive())
+                .toList();
+        //alternative:
+        /*
+        List<Product> products = repository.findAll();
+        Iterator<Product> iterator = products.iterator();
+        while (iterator.hasNext()) {
+        if (!iterator.next().isActive())
+            iterator.remove();
+         */
     }
 
     @Override
     public Product getById(Long id) {
-        return null;
+        //either Optional catches product, if doesn't - null us returned
+        Product product = repository.findById(id).orElse(null);
+        if(product == null || !product.isActive()){
+            return null;
+        }
+        return product;
     }
 
     @Override

@@ -1,12 +1,24 @@
 package de.ait_tr.g_40_shop.domain.entity;
 
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 import java.util.Objects;
 
+@Entity //such object are stored in DB
+@Table(name="product") //objects are saved in table "product"
 public class Product {
+    //if we want id field to be ignored when object is being made from JSON request, use
+    //@JsonIgnore
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //DB automatically generates autoincemented IDs
+    @Column(name="id")
     private Long id;
+    @Column(name="title")
     private String title;
+    @Column(name="price")
     private BigDecimal price;
+    @Column(name="active")
     private boolean active;
 
     @Override

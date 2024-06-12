@@ -1,9 +1,76 @@
 package de.ait_tr.g_40_shop.domain.entity;
 
-public class Customer {
+import jakarta.persistence.*;
 
+import java.util.Objects;
+
+@Entity //such object are stored in DB
+@Table(name="customer") //objects are saved in table "product"
+public class Customer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //DB automatically generates autoincemented IDs by itself
+    @Column(name="id")
     private Long id;
+    @Column(name="name")
     private String name;
+    @Column(name="active")
     private boolean active;
-    private ShoppingCart cart;
+ //   @OneToOne
+//    private Cart cart;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+/*
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
+
+ */
+    /*
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return active == customer.active && Objects.equals(id, customer.id) && Objects.equals(name, customer.name) && Objects.equals(cart, customer.cart);
+    }
+/*
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, active, cart);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Customer: id - %d, name - %s, active - %s, cart - %s",
+                id,name, active ? "yes" : "no", cart == null ? "ERROR: Cart is missing" : cart);
+    }
+
+ */
 }
