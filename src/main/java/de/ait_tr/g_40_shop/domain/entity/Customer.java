@@ -15,8 +15,8 @@ public class Customer {
     private String name;
     @Column(name="active")
     private boolean active;
-    @OneToOne
-    private Cart cart;
+ //   @OneToOne
+//    private Cart cart;
 
     public Long getId() {
         return id;
@@ -41,7 +41,7 @@ public class Customer {
     public void setActive(boolean active) {
         this.active = active;
     }
-
+/*
     public Cart getCart() {
         return cart;
     }
@@ -50,6 +50,9 @@ public class Customer {
         this.cart = cart;
     }
 
+
+ */
+    /*
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -57,7 +60,7 @@ public class Customer {
         Customer customer = (Customer) o;
         return active == customer.active && Objects.equals(id, customer.id) && Objects.equals(name, customer.name) && Objects.equals(cart, customer.cart);
     }
-
+/*
     @Override
     public int hashCode() {
         return Objects.hash(id, name, active, cart);
@@ -68,4 +71,6 @@ public class Customer {
         return String.format("Customer: id - %d, name - %s, active - %s, cart - %s",
                 id,name, active ? "yes" : "no", cart == null ? "ERROR: Cart is missing" : cart);
     }
+
+ */
 }
