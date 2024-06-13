@@ -1,7 +1,10 @@
 package de.ait_tr.g_40_shop.service;
 
+import de.ait_tr.g_40_shop.domain.dto.ProductDto;
 import de.ait_tr.g_40_shop.domain.entity.Product;
+import de.ait_tr.g_40_shop.repository.ProductRepository;
 import de.ait_tr.g_40_shop.service.interfaces.ProductService;
+import de.ait_tr.g_40_shop.service.mapping.ProductMappingService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -10,23 +13,63 @@ import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-    @Override
-    public Product save(Product product) {
-        return null;
+
+    private final ProductRepository repository;
+    private final ProductMappingService mappingService;
+
+    public ProductServiceImpl(ProductRepository repository, ProductMappingService mappingService) {
+        this.repository = repository;
+        this.mappingService = mappingService;
     }
 
     @Override
-    public List<Product> getAllActiveProducts() {
-        return null;
+    public ProductDto save(ProductDto dto) {
+        Product entity = mappingService.mapDtoToEntity(dto);
+        repository.save(entity);
+        return mappingService.mapProductToDto(entity);
+
+        /*
+        //nullify id if the customer provides one - this way the customer can't override another product with this id
+        product.setId(null);
+        //set to active as per task description
+        product.setActive(true);
+        return repository.save(product);
+
+         */
     }
 
     @Override
-    public Product getById(Long id) {
-        return null;
+    public List<ProductDto> getAllActiveProducts() {
+        return repository.findAll()
+                .stream()
+                .filter(Product::isActive)
+                //.filter(x->x.isActive())
+                //.map(x-> mappingService.mapProductToDto(x))
+                .map(mappingService::mapProductToDto)
+                .toList();
+
+        //alternative:
+        /*
+        List<Product> products = repository.findAll();
+        Iterator<Product> iterator = products.iterator();
+        while (iterator.hasNext()) {
+        if (!iterator.next().isActive())
+            iterator.remove();
+         */
     }
 
     @Override
-    public Product update(Product product) {
+    public ProductDto getById(Long id) {
+        //either Optional catches product, if doesn't - null us returned
+        Product product = repository.findById(id).orElse(null);
+        if(product == null || !product.isActive()){
+            return null;
+        }
+        return mappingService.mapProductToDto(product);
+    }
+
+    @Override
+    public ProductDto update(ProductDto product) {
         return null;
     }
 
