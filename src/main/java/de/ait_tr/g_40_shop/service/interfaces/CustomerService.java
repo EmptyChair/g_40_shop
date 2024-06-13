@@ -1,5 +1,6 @@
 package de.ait_tr.g_40_shop.service.interfaces;
 
+import de.ait_tr.g_40_shop.domain.dto.CustomerDto;
 import de.ait_tr.g_40_shop.domain.entity.Customer;
 import de.ait_tr.g_40_shop.domain.entity.Product;
 
@@ -8,13 +9,13 @@ import java.util.List;
 
 public interface CustomerService {
 
-    Customer saveCustomer(Customer customer);
-    List<Customer> getAllActiveCustomers();
-    Customer getActiveCustomerById(Long id);
-    Customer updateCustomerById(Long id, Customer customer);
+    CustomerDto saveCustomer(CustomerDto customer);
+    List<CustomerDto> getAllActiveCustomers();
+    CustomerDto getActiveCustomerById(Long id);
+    CustomerDto updateCustomerById(Long id, CustomerDto customer);
     void deleteCustomerById(Long id);
     void deleteCustomerByName(String name);
-    Customer restoreCustomerById(Long id);
+    CustomerDto restoreCustomerById(Long id);
     long getActiveCustomersQuantity();
     BigDecimal getCustomerProductsTotalPriceById(Long id);
     BigDecimal getCustomerProductsAveragePriceById(Long id);

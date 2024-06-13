@@ -1,5 +1,6 @@
 package de.ait_tr.g_40_shop.controller;
 
+import de.ait_tr.g_40_shop.domain.dto.CustomerDto;
 import de.ait_tr.g_40_shop.domain.entity.Customer;
 import de.ait_tr.g_40_shop.domain.entity.Product;
 import de.ait_tr.g_40_shop.service.interfaces.CustomerService;
@@ -21,21 +22,22 @@ public class CustomerController {
     }
 
     @PostMapping
-    public Customer save(@RequestBody Customer customer) {
+    public CustomerDto save(@RequestBody CustomerDto customer) {
         return customerService.saveCustomer(customer);
     }
 
     @GetMapping
-    public List<Customer> getCustomer(@RequestParam(required = false) Long id){
+    public List<CustomerDto> getCustomer(@RequestParam(required = false) Long id){
         if (id == null) {
             return customerService.getAllActiveCustomers();
         }   else {
-            return List.of(customerService.getActiveCustomerById(id));
+            CustomerDto customerDto = customerService.getActiveCustomerById(id);
+            return customerDto == null ? null : List.of(customerService.getActiveCustomerById(id));
         }
     }
 
     @PutMapping
-    public Customer updateCustomerById(@RequestParam(required = true) Long id, @RequestParam(required = true) Customer customer){
+    public CustomerDto updateCustomerById(@RequestParam(required = true) Long id, @RequestParam(required = true) CustomerDto customer){
         return customerService.updateCustomerById(id, customer);
     }
 

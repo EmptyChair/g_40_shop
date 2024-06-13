@@ -1,9 +1,11 @@
 package de.ait_tr.g_40_shop.service;
 
+import de.ait_tr.g_40_shop.domain.dto.CustomerDto;
 import de.ait_tr.g_40_shop.domain.entity.Customer;
 import de.ait_tr.g_40_shop.domain.entity.Product;
 import de.ait_tr.g_40_shop.repository.CustomerRepository;
 import de.ait_tr.g_40_shop.service.interfaces.CustomerService;
+import de.ait_tr.g_40_shop.service.mapping.CustomerMappingService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -14,37 +16,41 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
+    private final CustomerMappingService customerMappingService;
+
+    public CustomerServiceImpl(CustomerRepository customerRepository, CustomerMappingService customerMappingService) {
         this.customerRepository = customerRepository;
+        this.customerMappingService = customerMappingService;
     }
 
     @Override
-    public Customer saveCustomer(Customer customer) {
-        customer.setId(null);
-        customer.setActive(true);
-        return customerRepository.save(customer);
+    public CustomerDto saveCustomer(CustomerDto customerDto) {
+        Customer customer = customerMappingService.mapCustomerDtoToCustomer(customerDto);
+        customerRepository.save(customer);
+        return customerMappingService.mapCustomerToCustomerDto(customer);
     }
 
     @Override
-    public List<Customer> getAllActiveCustomers() {
+    public List<CustomerDto> getAllActiveCustomers() {
         //only active customers
         return customerRepository.findAll()
                 .stream()
                 .filter(Customer::isActive)
+                .map(customerMappingService::mapCustomerToCustomerDto)
                 .toList();
     }
 
     @Override
-    public Customer getActiveCustomerById(Long id) {
+    public CustomerDto getActiveCustomerById(Long id) {
         Customer customer = customerRepository.findById(id).orElse(null);
         if (customer == null || !customer.isActive() ) {
             return null;
         }
-        return customer;
+        return customerMappingService.mapCustomerToCustomerDto(customer);
     }
 
     @Override
-    public Customer updateCustomerById(Long id, Customer customer) {
+    public CustomerDto updateCustomerById(Long id, CustomerDto customer) {
         return null;
     }
 
@@ -59,7 +65,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer restoreCustomerById(Long id) {
+    public CustomerDto restoreCustomerById(Long id) {
         return null;
     }
 

@@ -1,5 +1,6 @@
 package de.ait_tr.g_40_shop.controller;
 
+import de.ait_tr.g_40_shop.domain.dto.ProductDto;
 import de.ait_tr.g_40_shop.domain.entity.Product;
 import de.ait_tr.g_40_shop.service.interfaces.ProductService;
 import org.springframework.web.bind.annotation.*;
@@ -26,25 +27,25 @@ public class ProductController {
 
     @PostMapping
     //@Request body to make sure JSON is transformed into object
-    public Product save (@RequestBody Product product) {
+    public ProductDto save (@RequestBody ProductDto product) {
         //problem - turning product back into JSON
         //solution: Spring will automatically turn Product product into JSON request using Jackson
         return service.save(product);
     }
 
     @GetMapping
-    public List<Product> getProduct(@RequestParam(required = false) Long id) {
+    public List<ProductDto> getProduct(@RequestParam(required = false) Long id) {
         if (id == null) {
             return service.getAllActiveProducts();
         }  else {
             //if product doesn't exist
-            Product product = service.getById(id);
+            ProductDto product = service.getById(id);
             return product == null ? null : List.of(service.getById(id));
         }
     }
 
     @PutMapping
-    public Product updateProduct(@RequestParam Product product) {
+    public ProductDto updateProduct(@RequestParam ProductDto product) {
         return service.update(product);
     }
 
