@@ -25,6 +25,13 @@ public class ProductController {
     //endpoint POST - localhost:8080/products/example
     //make sure requests with the same mapping have multiple endpoints!!!
 
+    /*
+    AUTORITY PLAN:
+    getALL - for everyone, including anonymous
+    getById - for any user
+    save product - only admin
+     */
+
     @PostMapping
     //@Request body to make sure JSON is transformed into object
     public ProductDto save (@RequestBody ProductDto product) {
@@ -32,6 +39,13 @@ public class ProductController {
         //solution: Spring will automatically turn Product product into JSON request using Jackson
         return service.save(product);
     }
+
+    @GetMapping
+    public ProductDto getById(@RequestParam Long id) {
+        return service.getById(id);
+    }
+    //Version before Authority division
+    /*
 
     @GetMapping
     public List<ProductDto> getProduct(@RequestParam(required = false) Long id) {
@@ -42,6 +56,12 @@ public class ProductController {
             ProductDto product = service.getById(id);
             return product == null ? null : List.of(service.getById(id));
         }
+    }
+    */
+
+    @GetMapping("/all")
+    public List<ProductDto> getAll() {
+        return service.getAllActiveProducts();
     }
 
     @PutMapping

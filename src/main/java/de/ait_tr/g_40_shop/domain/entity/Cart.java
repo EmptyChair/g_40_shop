@@ -14,9 +14,9 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @OneToOne
+    //@OneToOne
     private Customer customer;
-    @OneToMany
+    //@OnetoMany
     private List<Product> products;
 
     public Long getId() {
@@ -113,10 +113,15 @@ public class Cart {
     }
 
     public BigDecimal getAverageActivePrice() {
-        if (products!=null) {
+        long activeNumber = products.stream()
+                .filter(Product::isActive)
+                .count();
+        //if there are any active numbers
+        if (activeNumber > 0) {
             return getTotalActivePrice()
-                    .divide(BigDecimal.valueOf(products.size()));
+                    .divide(BigDecimal.valueOf(activeNumber));
         }
+        //if none
         return BigDecimal.valueOf(0);
     }
 }

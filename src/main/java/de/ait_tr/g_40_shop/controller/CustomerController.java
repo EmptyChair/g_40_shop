@@ -37,8 +37,8 @@ public class CustomerController {
     }
 
     @PutMapping
-    public CustomerDto updateCustomerById(@RequestParam(required = true) Long id, @RequestParam(required = true) CustomerDto customer){
-        return customerService.updateCustomerById(id, customer);
+    public CustomerDto updateCustomerById(@RequestParam(required = true) CustomerDto customer){
+        return customerService.updateCustomerById(customer);
     }
 
     @DeleteMapping

@@ -12,7 +12,7 @@ public interface CustomerService {
     CustomerDto saveCustomer(CustomerDto customer);
     List<CustomerDto> getAllActiveCustomers();
     CustomerDto getActiveCustomerById(Long id);
-    CustomerDto updateCustomerById(Long id, CustomerDto customer);
+    CustomerDto updateCustomerById(CustomerDto customer);
     void deleteCustomerById(Long id);
     void deleteCustomerByName(String name);
     CustomerDto restoreCustomerById(Long id);
